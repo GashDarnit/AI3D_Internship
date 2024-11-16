@@ -1,0 +1,80 @@
+{
+    "20241111": {
+        "date": "2024-11-11",
+        "skeleton joints": "00000.jpg",
+        "hand release": "00069.jpg",
+        "grouping": 93.21,
+        "consistency": 91.26,
+        "dfl": 80.41,
+        "anchor": 90.01,
+        "bow stability": 88.87,
+        "bow balance": 96.85,
+        "strength": 75.79,
+        "aiming": 58.97,
+        "score": [9, 10, 10, 9, 8, 10, 9, 9, 10, 10],
+        "color": ["LightCoral", "SkyBlue", "MediumSpringGreen", "Turquoise", "Orchid", "LightSeaGreen", "SandyBrown", "CornflowerBlue", "Silver", "LightSlateGray"],
+        "joints": [
+            94.45,
+            91.26,
+            91.33,
+            98.88,
+            95.84,
+            92.69,
+            86.82,
+            93.75,
+            89.71,
+            93.09
+        ]
+    },
+    "20241112": {
+        "date": "2024-11-12",
+        "grouping": 83.21,
+        "consistency": 81.26,
+        "dfl": 90.41,
+        "anchor": 90.01,
+        "bow stability": 90.87,
+        "bow balance": 96.85,
+        "strength": 95.79,
+        "aiming": 68.97,
+        "score": [10, 10, 9, 9, 10, 8, 8, 10, 9, 8],
+        "color": ["LightCoral", "SkyBlue", "MediumSpringGreen", "Turquoise", "Orchid", "LightSeaGreen", "SandyBrown", "CornflowerBlue", "Silver", "LightSlateGray"],
+        "joints": [
+            88.13,
+            89.84,
+            91.69,
+            90.75,
+            92.35,
+            87.07,
+            93.41,
+            91.82,
+            91.64,
+            92.65
+        ]
+    },
+    "20241113": {
+        "date": "2024-11-13",
+        "grouping": 88.21,
+        "consistency": 82.26,
+        "dfl": 91.41,
+        "anchor": 89.01,
+        "bow stability": 89.87,
+        "bow balance": 94.85,
+        "strength": 92.79,
+        "aiming": 72.97,
+        "score": [10, 10, 9, 9, 10, 8, 8, 10, 9, 10],
+        "color": ["LightCoral", "SkyBlue", "MediumSpringGreen", "Turquoise", "Orchid", "LightSeaGreen", "SandyBrown", "CornflowerBlue", "Silver", "LightSlateGray"],
+        "joints": [
+            89.13,
+            89.84,
+            92.69,
+            92.75,
+            91.35,
+            85.07,
+            97.41,
+            92.82,
+            91.64,
+            91.65
+        ]
+    }
+    
+}
