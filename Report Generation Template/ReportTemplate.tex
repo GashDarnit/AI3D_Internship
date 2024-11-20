@@ -1,4 +1,3 @@
-{% raw %}
 \documentclass[a4paper, twoside, svgnames]{report}
 
 % package for splitting the page
@@ -11,7 +10,7 @@
 \usepackage{multirow}
 % Sets page size and margins
 \usepackage[a4paper,top=2cm,bottom=2cm,left=2cm,right=2cm,marginparwidth=1cm]{geometry}
-
+\usepackage{grffile}
 % Useful packages
 \usepackage{amsmath}
 \usepackage{graphicx}
@@ -43,16 +42,16 @@
 \definecolor{myyellow}{HTML}{fff535}
 \definecolor{lightgreen}{RGB}{144,238,144}
 
-{% endraw %}
+
 
 \usepackage{fancyhdr}
 \pagestyle{fancy}
 \fancyhf{}
-{% raw %}\rhead{{% endraw %}{{ report_id }}{% raw %}}{% endraw %}
-\lhead{\includegraphics[width=3.5cm]{ {{ logo_icon }} }}
+\rhead{\VAR{report_id}}
+\lhead{\includegraphics[width=3.5cm]{\VAR{logo_icon}}}
 \renewcommand{\footrulewidth}{1pt}
 
-{% raw %}
+
 % For Figure
 \usepackage{longtable, tabu}
 \usepackage{pdflscape}
@@ -69,7 +68,7 @@
 \newcommand{\centered}[1]{\begin{tabular}{l} #1 \end{tabular}}
 
 %Remark Box
-\usepackage[svgnames]{xcolor}
+% \usepackage[svgnames]{xcolor}
 \usepackage[framemethod=tikz]{mdframed}
 \usetikzlibrary{shadows,shadings, calc}
 \usepackage{calc}
@@ -111,15 +110,16 @@
 \colorlet{highlightcolor}{red}
 
 %=====================================================================
-{% endraw %}
-
 \begin{document}
+
+
+
 
 \setlength{\columnsep}{1cm}
 \vspace*{0.5pt}
 \vspace{-0.6cm}
 
-\section*{\centering {\LARGE \textbf{\underline{ {{ athlete_name }} }}}}
+\section*{\centering {\LARGE \textbf{\underline{\VAR{athlete_name}}}}}
 \vspace{-0.1cm}
 
 \columnratio{0.2099, 0.0001, 0.395, 0.395}
@@ -128,36 +128,37 @@
 \switchcolumn[0]
 \noindent % Ensures the following content starts at the left margin
 
+
 \begin{minipage}[c]{\linewidth}
     
     % Measure the width and height of the image, in points
     \newlength{\imgwidth}
     \newlength{\imgheight}
-    \settowidth{\imgwidth}{\includegraphics{ {{ skeleton_joints }} }}
-    \settoheight{\imgheight}{\includegraphics{ {{ skeleton_joints }} }}
+    \settowidth{\imgwidth}{\includegraphics{\VAR{skeleton_joints}}}
+    \settoheight{\imgheight}{\includegraphics{\VAR{skeleton_joints}}}
     % Width: \the\imgwidth    \   Height: \the\imgheight
     
-    {% raw %}
     \pointToCm{\imgwidth}{\width}     
     \pointToCm{\imgheight}{\height}
     % Width: \width   \   Height: \height
-    
+
     % Scale conversion
-    \pixelToCm{191}{\headX}                      \pixelToCm{333}{\headY}
-    \pixelToCm{228}{\leftshoulderX}      \pixelToCm{395}{\leftshoulderY}
-    \pixelToCm{137}{\rightshoulderX}    \pixelToCm{411}{\rightshoulderY}
-    \pixelToCm{295}{\leftelbowX}            \pixelToCm{378}{\leftelbowY}
-    \pixelToCm{62}{\rightelbowX}          \pixelToCm{360}{\rightelbowY}
-    \pixelToCm{380}{\leftwristX}            \pixelToCm{375}{\leftwristY}
-    \pixelToCm{138}{\rightwristX}          \pixelToCm{354}{\rightwristY}
-    \pixelToCm{235}{\lefthipX}                \pixelToCm{573}{\lefthipY}
-    \pixelToCm{171}{\righthipX}              \pixelToCm{577}{\righthipY}
-    \pixelToCm{257}{\leftkneeX}              \pixelToCm{681}{\leftkneeY}
-    \pixelToCm{162}{\rightkneeX}            \pixelToCm{692}{\rightkneeY}
-    \pixelToCm{288}{\leftankleX}            \pixelToCm{781}{\leftankleY}
-    \pixelToCm{148}{\rightankleX}          \pixelToCm{799}{\rightankleY}
-    \pixelToCm{182}{\midshoulderX}        \pixelToCm{403}{\midshoulderY}
-    \pixelToCm{203}{\midhipX}                  \pixelToCm{575}{\midhipY}
+    \pixelToCm{\VAR{data['skel_data']['head'][0]}}{\headX}                       \pixelToCm{\VAR{data['skel_data']['head'][1]}}{\headY}
+    \pixelToCm{\VAR{data['skel_data']['left_shoulder'][0]}}{\leftshoulderX}      \pixelToCm{\VAR{data['skel_data']['left_shoulder'][1]}}{\leftshoulderY}
+    \pixelToCm{\VAR{data['skel_data']['right_shoulder'][0]}}{\rightshoulderX}    \pixelToCm{\VAR{data['skel_data']['right_shoulder'][1]}}{\rightshoulderY}
+    \pixelToCm{\VAR{data['skel_data']['left_elbow'][0]}}{\leftelbowX}            \pixelToCm{\VAR{data['skel_data']['left_elbow'][1]}}{\leftelbowY}
+    \pixelToCm{\VAR{data['skel_data']['right_elbow'][0]}}{\rightelbowX}          \pixelToCm{\VAR{data['skel_data']['right_elbow'][1]}}{\rightelbowY}
+    \pixelToCm{\VAR{data['skel_data']['left_wrist'][0]}}{\leftwristX}            \pixelToCm{\VAR{data['skel_data']['left_wrist'][1]}}{\leftwristY}
+    \pixelToCm{\VAR{data['skel_data']['right_wrist'][0]}}{\rightwristX}          \pixelToCm{\VAR{data['skel_data']['right_wrist'][1]}}{\rightwristY}
+    \pixelToCm{\VAR{data['skel_data']['left_hip'][0]}}{\lefthipX}                \pixelToCm{\VAR{data['skel_data']['left_hip'][1]}}{\lefthipY}
+    \pixelToCm{\VAR{data['skel_data']['right_hip'][0]}}{\righthipX}              \pixelToCm{\VAR{data['skel_data']['right_hip'][1]}}{\righthipY}
+    \pixelToCm{\VAR{data['skel_data']['left_knee'][0]}}{\leftkneeX}              \pixelToCm{\VAR{data['skel_data']['left_knee'][1]}}{\leftkneeY}
+    \pixelToCm{\VAR{data['skel_data']['right_knee'][0]}}{\rightkneeX}            \pixelToCm{\VAR{data['skel_data']['right_knee'][1]}}{\rightkneeY}
+    \pixelToCm{\VAR{data['skel_data']['left_ankle'][0]}}{\leftankleX}            \pixelToCm{\VAR{data['skel_data']['left_ankle'][1]}}{\leftankleY}
+    \pixelToCm{\VAR{data['skel_data']['right_ankle'][0]}}{\rightankleX}          \pixelToCm{\VAR{data['skel_data']['right_ankle'][1]}}{\rightankleY}
+    \pixelToCm{\VAR{data['skel_data']['mid_shoulder'][0]}}{\midshoulderX}        \pixelToCm{\VAR{data['skel_data']['mid_shoulder'][1]}}{\midshoulderY}
+    \pixelToCm{\VAR{data['skel_data']['mid_hip'][0]}}{\midhipX} 		 \pixelToCm{\VAR{data['skel_data']['mid_hip'][1]}}{\midhipY}
+
     
     \centering
     \begin{minipage}{3.5cm}
@@ -169,11 +170,9 @@
         \hspace{2cm}
         \centering                                    
             \begin{tikzpicture}[yscale=-1]      % yscale=-1 -> flip on x-axis
-                \node[anchor=north west,inner sep=0] at (0.05,0)    {\includegraphics[width=360pt, height=640pt]{00000.jpg}};  % set the origin
-                % \node[anchor=north west,inner sep=0] at (0,0)     {\includegraphics{00000.jpg}};  % set the origin
+                \node[anchor=north west,inner sep=0] at (0.05,0) {\includegraphics[width=360pt, height=640pt]{\VAR{skeleton_joints}}};  % set the origin
                 
-                \pointToCm{637.2}{\scaledHeight}
-                
+    		\pointToCm{637.2}{\scaledHeight}
                 % % plot the line (x-axis) and origin
                 % \filldraw[cyan] (0,0) circle (3pt);
                 % \draw[cyan] (0,0) -- ({0+\width}, 0);
@@ -238,12 +237,11 @@
                 
                 % Highlight the specify coordinate                    
                 \draw[green, line width=0.45cm, opacity=0.3] (extended_mid_shoulder) -- (extended_hip);
-                \draw[highlightcolor, line width=0.45cm, opacity=0.3] (right_shoulder) -- (\rightshoulderX, 0.75\scaledHeight);
-                \draw[highlightcolor, line width=0.45cm, opacity=0.3] (left_shoulder) -- (\leftshoulderX, 0.75\scaledHeight);
+                \draw[highlightcolor, line width=0.45cm, opacity=0.3] (right_shoulder) -- (\rightshoulderX, 0.75\imgheight);
+                \draw[highlightcolor, line width=0.45cm, opacity=0.3] (left_shoulder) -- (\leftshoulderX, 0.75\imgheight);
             \end{tikzpicture}                
         }%
     \end{minipage}%
-    {% endraw %}
     
     \vspace{1cm}
     \begin{minipage}{4cm}
@@ -252,7 +250,7 @@
         \vspace{0.2cm}
         
         % Enlarged Display
-        \adjincludegraphics[height=4cm, width=3.5cm, trim={0 0 {0.5\width} 0},clip]{ {{ hand_release }} } % Left Half
+        \adjincludegraphics[height=3.5cm, width=3.5cm, trim={0 0 {0.5\width} 0},clip]{\VAR{hand_release}}
         
     \end{minipage}
 \end{minipage}
@@ -296,25 +294,25 @@
             %D6 - Bow Stability
             %D7 - Anchor
             %D8 - DFL
-            \path (1*\A:\L) node (L1) [align=center]{\footnotesize Consistency\\ \footnotesize {{ data['consistency'] }}\%};
-            \path (2*\A:\L) node (L2) [align=center]{\footnotesize Grouping\\ \footnotesize {{ data['grouping'] }}\%};
-            \path (3*\A:\L) node (L3) [align=center]{\footnotesize Aiming\\ \footnotesize {{ data['aiming'] }}\%};
-            \path (4*\A:\L) node (L4) [align=center]{\footnotesize Strength\\ \footnotesize {{ data['strength'] }}\%};
-            \path (5*\A:\L) node (L5) [align=center]{\footnotesize Bow Balance\\ \footnotesize {{ data['bow balance'] }}\%};
-            \path (6*\A:\L) node (L6) [align=center]{\footnotesize Bow Stability\\ \footnotesize {{ data['bow stability'] }}\%};
-            \path (7*\A:\L) node (L7) [align=center]{\footnotesize Anchor\\ \footnotesize {{ data['anchor'] }}\%};
-            \path (8*\A:\L) node (L8) [align=center]{\footnotesize DFL\\ \footnotesize {{ data['dfl'] }}\%};
+            \path (1*\A:\L) node (L1) [align=center]{\footnotesize Consistency\\ \footnotesize \VAR{data['consistency']}\%};
+            \path (2*\A:\L) node (L2) [align=center]{\footnotesize Grouping\\ \footnotesize \VAR{data['grouping']}\%};
+            \path (3*\A:\L) node (L3) [align=center]{\footnotesize Aiming\\ \footnotesize \VAR{data['aiming']}\%};
+            \path (4*\A:\L) node (L4) [align=center]{\footnotesize Strength\\ \footnotesize \VAR{data['strength']}\%};
+            \path (5*\A:\L) node (L5) [align=center]{\footnotesize Bow Balance\\ \footnotesize \VAR{data['bow balance']}\%};
+            \path (6*\A:\L) node (L6) [align=center]{\footnotesize Bow Stability\\ \footnotesize \VAR{data['bow stability']}\%};
+            \path (7*\A:\L) node (L7) [align=center]{\footnotesize Anchor\\ \footnotesize \VAR{data['anchor']}\%};
+            \path (8*\A:\L) node (L8) [align=center]{\footnotesize DFL\\ \footnotesize \VAR{data['dfl']}\%};
             
             
             \draw [fill=red, color=red,line width=1.5pt,opacity=0.5]
-            (D1-8.726) --
-            (D2-9.181) --
-            (D3-4.301) --
-            (D4-7.075) --
-            (D5-9.685) --
-            (D6-8.887) --
-            (D7-9.001) --
-            (D8-8.041) -- cycle;
+            (D1-\VAR{(data['consistency'] / 10) | round(3)}) --
+            (D2-\VAR{(data['grouping'] / 10) | round(3)}) --
+            (D3-\VAR{(data['aiming'] / 10) | round(3)}) --
+            (D4-\VAR{(data['strength'] / 10) | round(3)}) --
+            (D5-\VAR{(data['bow balance'] / 10) | round(3)}) --
+            (D6-\VAR{(data['bow stability'] / 10) | round(3)}) --
+            (D7-\VAR{(data['anchor'] / 10) | round(3)}) --
+            (D8-\VAR{(data['dfl'] / 10) | round(3)}) -- cycle;
         
         \end{tikzpicture}            
     }
@@ -322,7 +320,7 @@
     
     \vspace{0.5cm}
     
-    {% raw %}
+    
     \begin{minipage}{\linewidth}
         \resizebox{1.05\linewidth}{!}{%   
         \hspace{0.1cm}
@@ -345,18 +343,18 @@
                 } -- cycle;
               }
             
-        {% endraw %}
+        
             % define labels for each dimension axis (names config option)
-            \path (1*\JA:\L) node (L1) [align=center]{\footnotesize J02\\ \footnotesize {{ data['joints'][0] }}\%};
-            \path (2*\JA:\L) node (L2) [align=center]{\footnotesize J01\\ \footnotesize {{ data['joints'][1] }}\%};
-            \path (3*\JA:\L) node (L3) [align=center]{\footnotesize J10\\ \footnotesize {{ data['joints'][2] }}\%};
-            \path (4*\JA:\L) node (L4) [align=center]{\footnotesize J09\\ \footnotesize {{ data['joints'][3] }}\%};
-            \path (5*\JA:\L) node (L5) [align=center]{\footnotesize J08\\ \footnotesize {{ data['joints'][4] }}\%};
-            \path (6*\JA:\L) node (L6) [align=center]{\footnotesize J07\\ \footnotesize {{ data['joints'][5] }}\%};
-            \path (7*\JA:\L) node (L7) [align=center]{\footnotesize J06\\ \footnotesize {{ data['joints'][6] }}\%};
-            \path (8*\JA:\L) node (L8) [align=center]{\footnotesize J05\\ \footnotesize {{ data['joints'][7] }}\%};
-            \path (9*\JA:\L) node (L9) [align=center]{\footnotesize J04\\ \footnotesize {{ data['joints'][8] }}\%};
-            \path (10*\JA:\L) node (L10) [align=center]{\footnotesize J03\\ \footnotesize {{ data['joints'][9] }}\%};
+            \path (1*\JA:\L) node (L1) [align=center]{\footnotesize J02\\ \footnotesize \VAR{data['joints'][1]}\%};
+            \path (2*\JA:\L) node (L2) [align=center]{\footnotesize J01\\ \footnotesize \VAR{data['joints'][0]}\%};
+            \path (3*\JA:\L) node (L3) [align=center]{\footnotesize J10\\ \footnotesize \VAR{data['joints'][9]}\%};
+            \path (4*\JA:\L) node (L4) [align=center]{\footnotesize J09\\ \footnotesize \VAR{data['joints'][8]}\%};
+            \path (5*\JA:\L) node (L5) [align=center]{\footnotesize J08\\ \footnotesize \VAR{data['joints'][7]}\%};
+            \path (6*\JA:\L) node (L6) [align=center]{\footnotesize J07\\ \footnotesize \VAR{data['joints'][6]}\%};
+            \path (7*\JA:\L) node (L7) [align=center]{\footnotesize J06\\ \footnotesize \VAR{data['joints'][5]}\%};
+            \path (8*\JA:\L) node (L8) [align=center]{\footnotesize J05\\ \footnotesize \VAR{data['joints'][4]}\%};
+            \path (9*\JA:\L) node (L9) [align=center]{\footnotesize J04\\ \footnotesize \VAR{data['joints'][3]}\%};
+            \path (10*\JA:\L) node (L10) [align=center]{\footnotesize J03\\ \footnotesize \VAR{data['joints'][2]}\%};
             
             %D1 = J02
             %D2 = J01
@@ -370,16 +368,16 @@
             %D10 = J03
             
             \draw [fill=green, color=green,line width=1.5pt,opacity=0.5]
-            (D1-{{ (data['joints'][1] / 10) | round(3) }}) --
-            (D2-{{ (data['joints'][0] / 10) | round(3) }}) --
-            (D3-{{ (data['joints'][9] / 10) | round(3) }}) --
-            (D4-{{ (data['joints'][8] / 10) | round(3) }}) --
-            (D5-{{ (data['joints'][7] / 10) | round(3) }}) --
-            (D6-{{ (data['joints'][6] / 10) | round(3) }}) --
-            (D7-{{ (data['joints'][5] / 10) | round(3) }}) --
-            (D8-{{ (data['joints'][4] / 10) | round(3) }}) --
-            (D9-{{ (data['joints'][3] / 10) | round(3) }}) --
-            (D10-{{ (data['joints'][2] / 10) | round(3) }}) -- cycle;
+            (D1-\VAR{(data['joints'][1] / 10) | round(3)}) --
+            (D2-\VAR{(data['joints'][0] / 10) | round(3)}) --
+            (D3-\VAR{(data['joints'][9] / 10) | round(3)}) --
+            (D4-\VAR{(data['joints'][8] / 10) | round(3)}) --
+            (D5-\VAR{(data['joints'][7] / 10) | round(3)}) --
+            (D6-\VAR{(data['joints'][6] / 10) | round(3)}) --
+            (D7-\VAR{(data['joints'][5] / 10) | round(3)}) --
+            (D8-\VAR{(data['joints'][4] / 10) | round(3)}) --
+            (D9-\VAR{(data['joints'][3] / 10) | round(3)}) --
+            (D10-\VAR{(data['joints'][2] / 10) | round(3)}) -- cycle;
         
         \end{tikzpicture}
     }
@@ -398,7 +396,7 @@
             \begin{itemize}
                 \setlength{\itemsep}{0pt}
                 % Add items here: \item <Text>
-                \item Sample Item.
+                % \item Sample Item.
             \end{itemize}
         \end{minipage}
     }
@@ -412,9 +410,9 @@
             \textbf{Score}
             \vspace{-0.1cm}
 
-            \textbf{\textcolor{LightCoral}{\scriptsize {{ data['score'][0] }}}} -                    \textbf{\textcolor{SkyBlue}{\scriptsize {{ data['score'][1] }}}} -                    \textbf{\textcolor{MediumSpringGreen}{\scriptsize {{ data['score'][2] }}}} -                    \textbf{\textcolor{Turquoise}{\scriptsize {{ data['score'][3] }}}} -                    \textbf{\textcolor{Orchid}{\scriptsize {{ data['score'][4] }}}} -\\
+            \textbf{\textcolor{LightCoral}{\scriptsize \VAR{data['score'][0]}}} -                    \textbf{\textcolor{SkyBlue}{\scriptsize \VAR{data['score'][1]}}} -                    \textbf{\textcolor{MediumSpringGreen}{\scriptsize \VAR{data['score'][2]}}} -                    \textbf{\textcolor{Turquoise}{\scriptsize \VAR{data['score'][3]}}} -                    \textbf{\textcolor{Orchid}{\scriptsize \VAR{data['score'][4]}}} -\\
             \vspace{-0.2cm}
-            \textbf{\textcolor{LightSeaGreen}{\scriptsize {{ data['score'][5] }}}} -                    \textbf{\textcolor{SandyBrown}{\scriptsize {{ data['score'][6] }}}} -                    \textbf{\textcolor{CornflowerBlue}{\scriptsize {{ data['score'][7] }}}} -                    \textbf{\textcolor{Silver}{\scriptsize {{ data['score'][8] }}}} -                    \textbf{\textcolor{LightSlateGray}{\scriptsize {{ data['score'][9] }}}}  
+            \textbf{\textcolor{LightSeaGreen}{\scriptsize \VAR{data['score'][5]}}} -                    \textbf{\textcolor{SandyBrown}{\scriptsize \VAR{data['score'][6]}}} -                    \textbf{\textcolor{CornflowerBlue}{\scriptsize \VAR{data['score'][7]}}} -                    \textbf{\textcolor{Silver}{\scriptsize \VAR{data['score'][8]}}} -                    \textbf{\textcolor{LightSlateGray}{\scriptsize \VAR{data['score'][9]}}}  
         \end{center}
     \end{minipage}%    
     \vspace{0.1cm}
@@ -423,7 +421,6 @@
     % target
     \centering
     \begin{minipage}{0.9\linewidth}
-        {% raw %}
         \centering
         \resizebox{0.7\linewidth}{!}{%
         \begin{tikzpicture}
@@ -442,78 +439,18 @@
         \draw[black,line width=0.1mm] (-0.2mm,0) -- (0.2mm,0);
         \draw[black,line width=0.1mm] (0,-0.2mm) -- (0,0.2mm);
         
-        {% endraw %}
+        
+    \BLOCK{for index, row in score_dict.items()}
         % Get the color for this index from the lookup table
-        \definecolor{crosscolor}{named}{ {{ data['color'][0] }} }
+        \definecolor{crosscolor}{named}{\VAR{data['color'][loop.index0]}}
 
         % Draw the cross using the color from the lookup table
         \draw[crosscolor, line width=0.6mm] 
-            (46.74mm-40mm-2.1mm,-39.56mm+40mm-2.1mm) -- (46.74mm-40mm+2.1mm,-39.56mm+40mm+2.1mm)
-            (46.74mm-40mm+2.1mm,-39.56mm+40mm-2.1mm) -- (46.74mm-40mm-2.1mm,-39.56mm+40mm+2.1mm);
-                % Get the color for this index from the lookup table
-        \definecolor{crosscolor}{named}{ {{ data['color'][1] }} }
+            (\VAR{row['x']}mm-40mm-2.1mm,-\VAR{row['y']}mm+40mm-2.1mm) -- (\VAR{row['x']}mm-40mm+2.1mm,-\VAR{row['y']}mm+40mm+2.1mm)
+            (\VAR{row['x']}mm-40mm+2.1mm,-\VAR{row['y']}mm+40mm-2.1mm) -- (\VAR{row['x']}mm-40mm-2.1mm,-\VAR{row['y']}mm+40mm+2.1mm);
+    
+    \BLOCK{endfor}
 
-        % Draw the cross using the color from the lookup table
-        \draw[crosscolor, line width=0.6mm] 
-            (39.58mm-40mm-2.1mm,-39.65mm+40mm-2.1mm) -- (39.58mm-40mm+2.1mm,-39.65mm+40mm+2.1mm)
-            (39.58mm-40mm+2.1mm,-39.65mm+40mm-2.1mm) -- (39.58mm-40mm-2.1mm,-39.65mm+40mm+2.1mm);
-                % Get the color for this index from the lookup table
-        \definecolor{crosscolor}{named}{ {{ data['color'][2] }} }
-
-        % Draw the cross using the color from the lookup table
-        \draw[crosscolor, line width=0.6mm] 
-            (40.15mm-40mm-2.1mm,-39.66mm+40mm-2.1mm) -- (40.15mm-40mm+2.1mm,-39.66mm+40mm+2.1mm)
-            (40.15mm-40mm+2.1mm,-39.66mm+40mm-2.1mm) -- (40.15mm-40mm-2.1mm,-39.66mm+40mm+2.1mm);
-                % Get the color for this index from the lookup table
-        \definecolor{crosscolor}{named}{ {{ data['color'][3] }} }
-
-        % Draw the cross using the color from the lookup table
-        \draw[crosscolor, line width=0.6mm] 
-            (42.38mm-40mm-2.1mm,-45.45615242270663mm+40mm-2.1mm) -- (42.38mm-40mm+2.1mm,-45.45615242270663mm+40mm+2.1mm)
-            (42.38mm-40mm+2.1mm,-45.45615242270663mm+40mm-2.1mm) -- (42.38mm-40mm-2.1mm,-45.45615242270663mm+40mm+2.1mm);
-                % Get the color for this index from the lookup table
-        \definecolor{crosscolor}{named}{ {{ data['color'][4] }} }
-
-        % Draw the cross using the color from the lookup table
-        \draw[crosscolor, line width=0.6mm] 
-            (39.65mm-40mm-2.1mm,-29.08mm+40mm-2.1mm) -- (39.65mm-40mm+2.1mm,-29.08mm+40mm+2.1mm)
-            (39.65mm-40mm+2.1mm,-29.08mm+40mm-2.1mm) -- (39.65mm-40mm-2.1mm,-29.08mm+40mm+2.1mm);
-                % Get the color for this index from the lookup table
-        \definecolor{crosscolor}{named}{ {{ data['color'][5] }} }
-
-        % Draw the cross using the color from the lookup table
-        \draw[crosscolor, line width=0.6mm] 
-            (39.17mm-40mm-2.1mm,-39.26mm+40mm-2.1mm) -- (39.17mm-40mm+2.1mm,-39.26mm+40mm+2.1mm)
-            (39.17mm-40mm+2.1mm,-39.26mm+40mm-2.1mm) -- (39.17mm-40mm-2.1mm,-39.26mm+40mm+2.1mm);
-                % Get the color for this index from the lookup table
-        \definecolor{crosscolor}{named}{ {{ data['color'][6] }} }
-
-        % Draw the cross using the color from the lookup table
-        \draw[crosscolor, line width=0.6mm] 
-            (42.47mm-40mm-2.1mm,-35.59384757729337mm+40mm-2.1mm) -- (42.47mm-40mm+2.1mm,-35.59384757729337mm+40mm+2.1mm)
-            (42.47mm-40mm+2.1mm,-35.59384757729337mm+40mm-2.1mm) -- (42.47mm-40mm-2.1mm,-35.59384757729337mm+40mm+2.1mm);
-                % Get the color for this index from the lookup table
-        \definecolor{crosscolor}{named}{ {{ data['color'][7] }} }
-
-        % Draw the cross using the color from the lookup table
-        \draw[crosscolor, line width=0.6mm] 
-            (39.44mm-40mm-2.1mm,-33.5mm+40mm-2.1mm) -- (39.44mm-40mm+2.1mm,-33.5mm+40mm+2.1mm)
-            (39.44mm-40mm+2.1mm,-33.5mm+40mm-2.1mm) -- (39.44mm-40mm-2.1mm,-33.5mm+40mm+2.1mm);
-                % Get the color for this index from the lookup table
-        \definecolor{crosscolor}{named}{ {{ data['color'][8] }} }
-
-        % Draw the cross using the color from the lookup table
-        \draw[crosscolor, line width=0.6mm] 
-            (39.3mm-40mm-2.1mm,-39.7mm+40mm-2.1mm) -- (39.3mm-40mm+2.1mm,-39.7mm+40mm+2.1mm)
-            (39.3mm-40mm+2.1mm,-39.7mm+40mm-2.1mm) -- (39.3mm-40mm-2.1mm,-39.7mm+40mm+2.1mm);
-                % Get the color for this index from the lookup table
-        \definecolor{crosscolor}{named}{ {{ data['color'][9] }} }
-
-        % Draw the cross using the color from the lookup table
-        \draw[crosscolor, line width=0.6mm] 
-            (39.16mm-40mm-2.1mm,-39.27mm+40mm-2.1mm) -- (39.16mm-40mm+2.1mm,-39.27mm+40mm+2.1mm)
-            (39.16mm-40mm+2.1mm,-39.27mm+40mm-2.1mm) -- (39.16mm-40mm-2.1mm,-39.27mm+40mm+2.1mm);
-            
         \end{tikzpicture}            
         }% 
     \end{minipage}%
@@ -522,7 +459,7 @@
 \end{paracol}
 
 \begin{center}
-    \captionsetup{singlelinecheck = false, justification=justified, labelformat = empty, skip=1pt}
+    \captionsetup{singlelinecheck = false, justification=justified, labelformat = empty, skip=20pt}
     
     \begin{figure*}[!h]
         \centering
@@ -531,64 +468,65 @@
             % First row of images
             %J01
             \begin{minipage}{\linewidth}\centering
-                \includegraphics[width=\linewidth]{ {{ data['processed jointset'][0] }} }
+                \includegraphics[width=\linewidth]{\VAR{data['processed jointset'][0]}}
+                
                 \caption{\scriptsize } % <---- remarks/captions go here
             \end{minipage} &
             
             %J02
             \begin{minipage}{\linewidth}\centering
-                \includegraphics[width=\linewidth]{ {{ data['processed jointset'][1] }} }
+                \includegraphics[width=\linewidth]{\VAR{data['processed jointset'][1]}}
                 \caption{\scriptsize } % <---- remarks/captions go here
             \end{minipage} &
             
             %J03
             \begin{minipage}{\linewidth}\centering
-                \includegraphics[width=\linewidth]{ {{ data['processed jointset'][2] }} }
+                \includegraphics[width=\linewidth]{\VAR{data['processed jointset'][2]}}
                 \caption{\scriptsize } % <---- remarks/captions go here
             \end{minipage} &
             
             %J04
             \begin{minipage}{\linewidth}\centering
-                \includegraphics[width=\linewidth]{ {{ data['processed jointset'][3] }} }
+                \includegraphics[width=\linewidth]{\VAR{data['processed jointset'][3]}}
                 \caption{\scriptsize } % <---- remarks/captions go here
             \end{minipage} &
             
             %J05
             \begin{minipage}{\linewidth}\centering
-                \includegraphics[width=\linewidth]{ {{ data['processed jointset'][4] }} }
+                \includegraphics[width=\linewidth]{\VAR{data['processed jointset'][4]}}
                 \caption{\scriptsize } % <---- remarks/captions go here
             \end{minipage} \\
             
-            \\[-5pt]
+            \\[-15pt]
             
             % Second row of images
             %J06
             \begin{minipage}{\linewidth}\centering
-                \includegraphics[width=\linewidth]{ {{ data['processed jointset'][5] }} } 
+                \includegraphics[width=\linewidth]{\VAR{data['processed jointset'][5]}} 
                 \caption{\scriptsize } % <---- remarks/captions go here
             \end{minipage} &
             
             %J07
             \begin{minipage}{\linewidth}\centering
-                \includegraphics[width=\linewidth]{ {{ data['processed jointset'][6] }} } 
+                \includegraphics[width=\linewidth]{\VAR{data['processed jointset'][6]}} 
                 \caption{\scriptsize } % <---- remarks/captions go here
             \end{minipage} &
             
             %J08
             \begin{minipage}{\linewidth}\centering
-                \includegraphics[width=\linewidth]{ {{ data['processed jointset'][7] }} }
+                \includegraphics[width=\linewidth]{\VAR{data['processed jointset'][7]}}
                 \caption{\scriptsize } % <---- remarks/captions go here
             \end{minipage} &
             
             %J09
             \begin{minipage}{\linewidth}\centering
-                \includegraphics[width=\linewidth]{ {{ data['processed jointset'][8] }} } 
+                \includegraphics[width=\linewidth]{\VAR{data['processed jointset'][8]}} 
                 \caption{\scriptsize } % <---- remarks/captions go here
             \end{minipage} &
             
             %J10
             \begin{minipage}{\linewidth}\centering
-                \includegraphics[width=\linewidth]{ {{ data['processed jointset'][9] }} }
+                \includegraphics[width=\linewidth]{\VAR{data['processed jointset'][9]}}
                 \caption{\scriptsize } % <---- remarks/captions go here
             \end{minipage} \\
         \end{tabular}}
