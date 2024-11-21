@@ -11,6 +11,21 @@ function resetInfo(newUser, newData) {
     deleteIndex = undefined;
 }
 
+function showNotification(message) {
+    var notification = document.getElementById('session-selection-count-exceeded');
+    
+    // Set the notification message
+    notification.querySelector('p').textContent = message;
+
+    // Add the slide-in animation class
+    notification.style.animation = 'slide-in 0.5s forwards';
+
+    // Remove the notification after 1 second
+    setTimeout(function () {
+        notification.style.animation = 'slide-out 0.5s forwards';
+    }, 5000);
+}
+
 
 function updateRemarksList() {
     const remarksListContainer = $('#remarks-items');
@@ -114,6 +129,27 @@ function generateRadarChart(originalJSON) {
         };
     });
     
+    var dataAverage = {};
+    for (const key in originalJSON) {
+        const session = originalJSON[key];
+        const performanceCategory = ["grouping", "consistency", "dfl", "anchor", "bow stability", "bow balance", "strength", "aiming"];
+        let performanceAverage = 0;
+        let jointsAverage = 0;
+        
+        performanceCategory.forEach((item) => {
+            performanceAverage += session[item];
+        });
+        performanceAverage /= 8; //8 categories
+        
+        session['joints'].forEach((item) => {
+            jointsAverage += item;
+        });
+        jointsAverage /= 10;
+        
+        dataAverage[key] = [performanceAverage, jointsAverage];
+    }
+    
+    
     am4core.ready(function () {
         am4core.useTheme(am4themes_animated);
 
@@ -162,8 +198,44 @@ function generateRadarChart(originalJSON) {
 
             chart.legend = new am4charts.Legend();
         }
+        
+        function createLineChart(divId, averages) {
+            const chartData = Object.keys(averages).map(session => ({
+                session,
+                performance: averages[session][0],
+                joints: averages[session][1],
+            }));
+
+            var chart = am4core.create(divId, am4charts.XYChart);
+            chart.data = chartData;
+
+            var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+            categoryAxis.dataFields.category = "session";
+            categoryAxis.title.text = "Session";
+
+            var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+            valueAxis.title.text = "Average Score";
+
+            var performanceSeries = chart.series.push(new am4charts.LineSeries());
+            performanceSeries.dataFields.valueY = "performance";
+            performanceSeries.dataFields.categoryX = "session";
+            performanceSeries.name = "Performance";
+            performanceSeries.strokeWidth = 2;
+            performanceSeries.stroke = am4core.color("red");
+
+            var jointsSeries = chart.series.push(new am4charts.LineSeries());
+            jointsSeries.dataFields.valueY = "joints";
+            jointsSeries.dataFields.categoryX = "session";
+            jointsSeries.name = "Joints";
+            jointsSeries.strokeWidth = 2;
+            jointsSeries.stroke = am4core.color("blue");
+
+            chart.legend = new am4charts.Legend();
+        }
+
 
         createRadarChart("performanceChart", performanceData);
         createRadarChart("jointsChart", jointsData);
+        //createLineChart("summaryChart", dataAverage);
     });
 }

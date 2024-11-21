@@ -70,3 +70,33 @@ body.overflow-hidden {
     background-color: #cce7ff;
     border: 2px solid #3399ff;
 }
+
+@keyframes slide-in {
+    from {
+        transform: translateY(100%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+@keyframes slide-out {
+    from {
+        transform: translateY(0);
+    }
+    to {
+        transform: translateY(100%);
+    }
+}
+
+#session-selection-count-exceeded {
+    position: fixed;
+    bottom: 0;
+    left: 30%;
+    right: 30%;
+    align-items: center;
+    transform: translateY(100%); /* Initially hidden */
+    transition: transform 0.3s ease;
+    z-index: 50; /* Ensure it appears above other elements */
+}
+

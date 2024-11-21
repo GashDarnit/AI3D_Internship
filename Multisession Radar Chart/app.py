@@ -33,7 +33,12 @@ def generate_report(data, dates, colors, name, remarks):
     output_pdf_path = os.path.join(BASE_DIR, name + '.pdf')  # Path for the .pdf file
     logo_path = os.path.join(STATIC_DIR, 'images', 'logo_tight.png')
     logo_path = logo_path.replace("\\", "/")
-
+    
+    def cleanup_misc_files(tex_path,  name):
+        os.remove(tex_path) # Delete TeX file
+        os.remove(os.path.join(BASE_DIR, name + '.aux')) # Delete aux file
+        os.remove(os.path.join(BASE_DIR, name + '.log')) # Delete log file
+        
     # Ensure the reports directory exists
     if not os.path.exists(REPORTS_DIR):
         os.makedirs(REPORTS_DIR, exist_ok=True)
@@ -51,9 +56,7 @@ def generate_report(data, dates, colors, name, remarks):
     )
     
     if(len(remarks) > 0):
-        output += template_remarks.render(
-            remarks=remarks
-        )
+        output += template_remarks.render(remarks=remarks)
     
     output += template_end.render()
 
@@ -69,6 +72,7 @@ def generate_report(data, dates, colors, name, remarks):
     
     # Check if the PDF was created
     if os.path.exists(output_pdf_path):
+        cleanup_misc_files(output_tex_path, name)
         print(f"PDF successfully created: {output_pdf_path}")
         return output_pdf_path
     else:
