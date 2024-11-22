@@ -1,18 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<title>3D Model Viewer</title>
-		<style>
-			body { margin: 0; }
-		</style>
-	</head>
-	<body>
-		<script type="module" src="/main.js"></script>
-        <button id="uploadBtn" style="position: fixed; top: 20px; right: 20px; padding: 10px; background-color: #333; color: white; border: none; cursor: pointer; user-select: none;">
-            Upload Model
-        </button>
-        <input type="file" id="fileInput" style="display: none;" />
+<head>
+    <meta charset="utf-8">
+    <title>3D Model Viewer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            margin: 0;
+        }
+        #uploadBtn,
+        #textureUploadButton {
+            margin-bottom: 10px; /* Add space between the buttons */
+        }
+    </style>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <div id="container">
+        <!-- Top Bar for buttons (positioned on top-right corner) -->
+        <div class="absolute top-0 right-0 p-4 flex flex-col items-end">
+            <button id="uploadButton" class="bg-blue-500 text-white py-2 px-4 rounded mb-2">Upload Model</button>
+            <input type="file" id="fileInput" style="display: none" />
+            <button id="textureUploadButton" class="bg-blue-500 text-white py-2 px-4 rounded">Upload Texture</button>
+            <input type="file" id="textureInput" style="display: none" />
+        </div>
 
-	</body>
+        <div id="inventory" class="w-1/2 bg-gray-100 p-4 overflow-y-auto">
+            <h2 class="text-xl font-bold">Model Inventory</h2>
+            <div id="inventoryItemsContainer">
+                <div id="inventoryItems" class="grid grid-cols-3 gap-4">
+                    <!-- Slots for the first page -->
+                    <div class="inventory-slot"></div>
+                    <div class="inventory-slot"></div>
+                    <div class="inventory-slot"></div>
+                    <div class="inventory-slot"></div>
+                    <div class="inventory-slot"></div>
+                    <div class="inventory-slot"></div>
+                    <div class="inventory-slot"></div>
+                    <div class="inventory-slot"></div>
+                    <div class="inventory-slot"></div>
+                    <div class="inventory-slot"></div>
+                    <div class="inventory-slot"></div>
+                    <div class="inventory-slot"></div>
+                </div>
+            </div>
+            <div id="inventoryPagination" class="flex justify-center mt-4">
+                <button id="prevPage" class="bg-blue-500 text-white py-2 px-4 rounded mr-2" disabled>Previous</button>
+                <span id="pageIndicator" class="text-lg font-semibold">Page 1</span>
+                <button id="nextPage" class="bg-blue-500 text-white py-2 px-4 rounded ml-2">Next</button>
+            </div>
+        </div>
+
+
+        <!-- 3D Viewer (right side, 60% of width) -->
+        <div id="viewer">
+            <h2 class="text-xl font-bold">3D Viewer</h2>
+            <!-- 3D Viewer Canvas will go here -->
+            <canvas id="modelCanvas" style="width: 95%; height: 95%"></canvas>
+        </div>
+    </div>
+
+    <script type="module" src="/main.js"></script>
+</body>
 </html>

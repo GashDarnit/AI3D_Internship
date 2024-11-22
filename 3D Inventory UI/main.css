@@ -1,0 +1,117 @@
+body {
+    margin: 0;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+}
+
+#container {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 1fr; /* This ensures the grid takes up the full height of the viewport */
+    height: 100vh;
+    width: 100vw;
+}
+
+/* Inventory Section */
+#inventory {
+    background-color: #222;
+    color: white;
+    padding: 20px;
+    overflow-y: auto;
+    height: 100%;
+}
+
+#inventory h2 {
+    margin-top: 0;
+}
+
+#inventoryItems {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 4 columns */
+    grid-auto-rows: 1fr; /* Ensures each row maintains equal height */
+    gap: 10px; /* Spacing between items */
+}
+
+.inventory-item {
+    background-image: url('static/icons/logo_tight.png'); /* Path to your image */
+    background-size: cover; /* Ensures the image fills the entire box */
+    background-position: center; /* Centers the image */
+    background-repeat: no-repeat; /* Prevents tiling of the image */
+    width: 100%; /* Ensures consistent sizing within the grid */
+    height: 0;
+    padding-top: 100%; /* Aspect ratio of 1:1 for a square box */
+    border-radius: 5px; /* Optional rounded corners */
+    cursor: pointer;
+    transition: transform 0.2s; /* Smooth hover effect */
+}
+
+.inventory-item:hover {
+    transform: scale(1.05); /* Slight zoom effect on hover */
+}
+
+/* General slot styling */
+.inventory-slot {
+    border: 2px dashed #888; /* Dashed border for empty slots */
+    background-color: #222; /* Slightly dark background for contrast */
+    width: 100%;
+    height: 0;
+    padding-top: 100%; /* Maintains a square shape */
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+/* When a slot contains an item */
+.inventory-slot.filled {
+    border: 2px solid #fff; /* Solid border for filled slots */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* Optional hover effect for interactive slots */
+.inventory-slot:hover {
+    border-color: #666;
+    transform: scale(1.05);
+    transition: border-color 0.2s, transform 0.2s;
+}
+
+#inventoryPagination button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+button.inactive {
+    opacity: 0.5; /* Greyed-out appearance */
+    pointer-events: none; /* Prevent clicking */
+    cursor: not-allowed; /* Change cursor */
+}
+
+
+#inventory, #viewer {
+    height: 100%;
+}
+
+/* Viewer Section */
+#viewer {
+    background-color: #f5f5f5;
+    padding: 20px;
+    overflow: hidden;
+}
+
+/* Responsive Adjustments (Optional) */
+@media (max-width: 768px) {
+    #container {
+        grid-template-columns: 1fr; /* Stacks inventory and viewer on smaller screens */
+    }
+
+    #inventory {
+        height: 50vh;
+    }
+
+    #viewer {
+        height: 50vh;
+    }
+}
