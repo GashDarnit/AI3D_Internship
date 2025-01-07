@@ -250,7 +250,8 @@
         \vspace{0.2cm}
         
         % Enlarged Display
-        \adjincludegraphics[height=3.5cm, width=3.5cm, trim={0 0 {0.5\width} 0},clip]{\VAR{hand_release}}
+        \includegraphics[height=3.5cm, width=3.5cm]{\VAR{hand_release}}
+        %\adjincludegraphics[height=3.5cm, width=3.5cm, trim={0 0 {0.5\width} 0},clip]{\VAR{hand_release}}
         
     \end{minipage}
 \end{minipage}
@@ -304,15 +305,15 @@
             \path (8*\A:\L) node (L8) [align=center]{\footnotesize DFL\\ \footnotesize \VAR{data['dfl']}\%};
             
             
-            \draw [fill=red, color=red,line width=1.5pt,opacity=0.5]
-            (D1-\VAR{(data['consistency'] / 10) | round(3)}) --
-            (D2-\VAR{(data['grouping'] / 10) | round(3)}) --
-            (D3-\VAR{(data['aiming'] / 10) | round(3)}) --
-            (D4-\VAR{(data['strength'] / 10) | round(3)}) --
-            (D5-\VAR{(data['bow balance'] / 10) | round(3)}) --
-            (D6-\VAR{(data['bow stability'] / 10) | round(3)}) --
-            (D7-\VAR{(data['anchor'] / 10) | round(3)}) --
-            (D8-\VAR{(data['dfl'] / 10) | round(3)}) -- cycle;
+            \draw [fill=red, color=red,line width=1pt,opacity=0.5]
+            ({1*\A}:{ (\VAR{(data['consistency'] / 10) | round(3)}/10)/(1)*\R}) --
+            ({2*\A}:{ (\VAR{(data['grouping'] / 10) | round(3)}/10)/(1)*\R}) --
+            ({3*\A}:{ (\VAR{(data['aiming'] / 10) | round(3)}/10)/(1)*\R}) --
+            ({4*\A}:{ (\VAR{(data['strength'] / 10) | round(3)}/10)/(1)*\R}) --
+            ({5*\A}:{ (\VAR{(data['bow balance'] / 10) | round(3)}/10)/(1)*\R}) --
+            ({6*\A}:{ (\VAR{(data['bow stability'] / 10) | round(3)}/10)/(1)*\R}) --
+            ({7*\A}:{ (\VAR{(data['anchor'] / 10) | round(3)}/10)/(1)*\R}) --
+            ({8*\A}:{ (\VAR{(data['dfl'] / 10) | round(3)}/10)/(1)*\R}) -- cycle;
         
         \end{tikzpicture}            
     }
@@ -344,40 +345,32 @@
               }
             
         
-            % define labels for each dimension axis (names config option)
-            \path (1*\JA:\L) node (L1) [align=center]{\footnotesize J02\\ \footnotesize \VAR{data['joints'][1]}\%};
-            \path (2*\JA:\L) node (L2) [align=center]{\footnotesize J01\\ \footnotesize \VAR{data['joints'][0]}\%};
-            \path (3*\JA:\L) node (L3) [align=center]{\footnotesize J10\\ \footnotesize \VAR{data['joints'][9]}\%};
-            \path (4*\JA:\L) node (L4) [align=center]{\footnotesize J09\\ \footnotesize \VAR{data['joints'][8]}\%};
-            \path (5*\JA:\L) node (L5) [align=center]{\footnotesize J08\\ \footnotesize \VAR{data['joints'][7]}\%};
-            \path (6*\JA:\L) node (L6) [align=center]{\footnotesize J07\\ \footnotesize \VAR{data['joints'][6]}\%};
-            \path (7*\JA:\L) node (L7) [align=center]{\footnotesize J06\\ \footnotesize \VAR{data['joints'][5]}\%};
-            \path (8*\JA:\L) node (L8) [align=center]{\footnotesize J05\\ \footnotesize \VAR{data['joints'][4]}\%};
-            \path (9*\JA:\L) node (L9) [align=center]{\footnotesize J04\\ \footnotesize \VAR{data['joints'][3]}\%};
-            \path (10*\JA:\L) node (L10) [align=center]{\footnotesize J03\\ \footnotesize \VAR{data['joints'][2]}\%};
+            \BLOCK{set max_joint = data['joints'] | length}
             
-            %D1 = J02
-            %D2 = J01
-            %D3 = J10
-            %D4 = J09
-            %D5 = J08
-            %D6 = J07
-            %D7 = J06
-            %D8 = J05
-            %D9 = J04
-            %D10 = J03
+            \BLOCK{for i in range(max_joint)}
+                    \BLOCK{set res = i - max_joint}
+                    \BLOCK{if res == max_joint or res == -max_joint}
+                        \BLOCK{set res = 0}
+                    \BLOCK{elif res < 0}
+                        \BLOCK{set res = -res}
+                    \BLOCK{endif}
+
+                \path (\VAR{i+1}*\JA:\L) node ({L\VAR{i+1}}) [align=center]{\footnotesize {J\VAR{ '{:02d}'.format(res+1) }}\\ \footnotesize \VAR{data['joints'][res]}\%};    
+            \BLOCK{endfor}
             
-            \draw [fill=green, color=green,line width=1.5pt,opacity=0.5]
-            (D1-\VAR{(data['joints'][1] / 10) | round(3)}) --
-            (D2-\VAR{(data['joints'][0] / 10) | round(3)}) --
-            (D3-\VAR{(data['joints'][9] / 10) | round(3)}) --
-            (D4-\VAR{(data['joints'][8] / 10) | round(3)}) --
-            (D5-\VAR{(data['joints'][7] / 10) | round(3)}) --
-            (D6-\VAR{(data['joints'][6] / 10) | round(3)}) --
-            (D7-\VAR{(data['joints'][5] / 10) | round(3)}) --
-            (D8-\VAR{(data['joints'][4] / 10) | round(3)}) --
-            (D9-\VAR{(data['joints'][3] / 10) | round(3)}) --
-            (D10-\VAR{(data['joints'][2] / 10) | round(3)}) -- cycle;
+            \draw [fill=green, color=green,line width=1pt,opacity=0.5]
+            \BLOCK{for j in range(data['joints']|length)}
+                \BLOCK{set res = j - max_joint}
+                \BLOCK{if res == max_joint or res == -max_joint}
+                    \BLOCK{set res = 0}
+                \BLOCK{elif res < 0}
+                    \BLOCK{set res = -res}
+                \BLOCK{endif}
+                
+                ({\VAR{j+1}*\JA}:{(\VAR{(data['joints'][res] / 10) | round(3)}/10)/(1)*\R})
+                \BLOCK{if not loop.last}--\BLOCK{endif}
+            \BLOCK{endfor} -- cycle;
+            
         
         \end{tikzpicture}
     }
