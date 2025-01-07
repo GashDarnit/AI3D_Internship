@@ -320,7 +320,7 @@
     \end{minipage}%
     
     \vspace{0.5cm}
-    
+    \BLOCK{set max_joint = data['joints'] | length}
     
     \begin{minipage}{\linewidth}
         \resizebox{1.05\linewidth}{!}{%   
@@ -330,22 +330,19 @@
             \path (0:0cm) coordinate (O); % define coordinate for origin
         
               % draw the spiderweb
-              \foreach \X in {1,...,\J}{
-                \draw (\X*\JA:0) -- (\X*\JA:\R);
+              \foreach \X in {1,...,\VAR{max_joint}}{
+                \draw (\X*\VAR{360 / max_joint}:0) -- (\X*\VAR{360 / max_joint}:\R);
               }
         
               \foreach \Y in {0,...,\JU}{
-                \foreach \X in {1,...,\J}{
-                  \path (\X*\JA:\Y*\R/\JU) coordinate (D\X-\Y);
+                \foreach \X in {1,...,\VAR{max_joint}}{
+                  \path (\X*\VAR{360 / max_joint}:\Y*\R/\JU) coordinate (D\X-\Y);
                   \fill (D\X-\Y) circle (1pt);
                 }
-                \draw [opacity=0.3] (0:\Y*\R/\JU) \foreach \X in {1,...,\J}{
-                    -- (\X*\JA:\Y*\R/\JU)
+                \draw [opacity=0.3] (0:\Y*\R/\JU) \foreach \X in {1,...,\VAR{max_joint}}{
+                    -- (\X*\VAR{360 / max_joint}:\Y*\R/\JU)
                 } -- cycle;
               }
-            
-        
-            \BLOCK{set max_joint = data['joints'] | length}
             
             \BLOCK{for i in range(max_joint)}
                     \BLOCK{set res = i - max_joint}
@@ -355,7 +352,7 @@
                         \BLOCK{set res = -res}
                     \BLOCK{endif}
 
-                \path (\VAR{i+1}*\JA:\L) node ({L\VAR{i+1}}) [align=center]{\footnotesize {J\VAR{ '{:02d}'.format(res+1) }}\\ \footnotesize \VAR{data['joints'][res]}\%};    
+                \path (\VAR{i+2}*\VAR{360 / max_joint}:\L) node ({L\VAR{i+2}}) [align=center]{\footnotesize {J\VAR{ '{:02d}'.format(res+1) }}\\ \footnotesize \VAR{data['joints'][res]}\%};    
             \BLOCK{endfor}
             
             \draw [fill=green, color=green,line width=1pt,opacity=0.5]
@@ -367,7 +364,7 @@
                     \BLOCK{set res = -res}
                 \BLOCK{endif}
                 
-                ({\VAR{j+1}*\JA}:{(\VAR{(data['joints'][res] / 10) | round(3)}/10)/(1)*\R})
+                ({\VAR{j+2}*\VAR{360 / max_joint}}:{(\VAR{(data['joints'][res] / 10) | round(3)}/10)/(1)*\R})
                 \BLOCK{if not loop.last}--\BLOCK{endif}
             \BLOCK{endfor} -- cycle;
             
