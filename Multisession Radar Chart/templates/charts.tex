@@ -1,42 +1,3 @@
-\documentclass{article}
-\usepackage{tikz}
-\usetikzlibrary{shapes}
-
-\usepackage[a4paper,top=2cm,bottom=2cm,left=2cm,right=2cm,marginparwidth=1cm]{geometry}
-\usepackage{fancyhdr}
-\pagestyle{fancy}
-\fancyhf{}
-\lhead{\includegraphics[width=4cm]{\VAR{logo_icon}}}
-\renewcommand{\footrulewidth}{1pt}
-
-% for radar chart
-\newcommand{\D}{8} % number of dimensions (config option)
-\newcommand{\U}{6} % number of scale units (config option)
-
-\newdimen\R % maximal diagram radius (config option)
-% for Joint Consistency Radar Chart
-\newcommand{\J}{10} % number of dimensions (config option)
-\newcommand{\JU}{6} % number of scale units (config option)
-\newcommand{\JA}{360/\J} % calculated angle between dimension axes
-
-\newcommand{\A}{360/\D} % calculated angle between dimension axes  
-
-\newdimen\R % maximal diagram radius (config option)
-\R=2cm    % change the spider web radius
-\newdimen\L % radius to put dimension labels (config option)
-\L=2.6cm    % change the label radius
-\newdimen\LA % alternate radius
-\LA=2.3cm
-\newdimen\JL % joint radius
-\JL=2.3cm
-
-\begin{document}
-
-\vspace*{0.2pt}
-\vspace{-0.5cm}
-\section*{\centering {\textbf{\underline{\VAR{athlete_name}}}}}
-\vspace{-0.1cm}
-
 \begin{figure}[htbp] % Use figure to ensure both appear on the same page
     \centering
     \begin{minipage}{\linewidth}
@@ -216,5 +177,3 @@
         }
     \end{minipage}%
 \end{figure}
-
-

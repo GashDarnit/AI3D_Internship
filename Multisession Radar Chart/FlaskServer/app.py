@@ -34,6 +34,8 @@ def generate_report(data, dates, colors, name, remarks):
     logo_path = os.path.join(STATIC_DIR, 'images', 'logo_tight.png')
     logo_path = logo_path.replace("\\", "/")
     
+    max_joint = max(len(data[date]['joints']) for date in data)
+    
     def cleanup_misc_files(tex_path,  name):
         os.remove(tex_path) # Delete TeX file
         os.remove(os.path.join(BASE_DIR, name + '.aux')) # Delete aux file
@@ -47,12 +49,14 @@ def generate_report(data, dates, colors, name, remarks):
     template = latex_jinja_env.get_template('WebChart.tex')
     template_remarks = latex_jinja_env.get_template('remarks.tex')
     template_end = latex_jinja_env.get_template('end.tex')
+    
     output = template.render(
         logo_icon=logo_path,
         athlete_name=name,
         data=data,  # performance data (consistency, grouping, etc.), joints
         dates=dates,  # dates/sessions
         colors=colors,  # Array of hard-coded colors
+        max_joint=max_joint,
     )
     
     if(len(remarks) > 0):
@@ -77,7 +81,7 @@ def generate_report(data, dates, colors, name, remarks):
         return output_pdf_path
     else:
         print(f"Failed to create PDF: {output_pdf_path}")
-        return os.path.join(BASE_DIR, 'templates', 'error.html')
+        return os.path.join(BASE_DIR, 'templates', 'error.html') # error.html might never be displayed
 
 
 
