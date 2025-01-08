@@ -1,3 +1,42 @@
+\documentclass{article}
+\usepackage{tikz}
+\usetikzlibrary{shapes}
+
+\usepackage[a4paper,top=2cm,bottom=2cm,left=2cm,right=2cm,marginparwidth=1cm]{geometry}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\includegraphics[width=4cm]{\VAR{logo_icon}}}
+\renewcommand{\footrulewidth}{1pt}
+
+% for radar chart
+\newcommand{\D}{8} % number of dimensions (config option)
+\newcommand{\U}{6} % number of scale units (config option)
+
+\newdimen\R % maximal diagram radius (config option)
+% for Joint Consistency Radar Chart
+\newcommand{\J}{\VAR{max_joint}} % number of dimensions (config option)
+\newcommand{\JU}{6} % number of scale units (config option)
+\newcommand{\JA}{360/\J} % calculated angle between dimension axes
+
+\newcommand{\A}{360/\D} % calculated angle between dimension axes  
+
+\newdimen\R % maximal diagram radius (config option)
+\R=2cm    % change the spider web radius
+\newdimen\L % radius to put dimension labels (config option)
+\L=2.6cm    % change the label radius
+\newdimen\LA % alternate radius
+\LA=2.3cm
+\newdimen\JL % joint radius
+\JL=2.3cm
+
+\begin{document}
+
+\vspace*{0.2pt}
+\vspace{-0.5cm}
+\section*{\centering {\textbf{\underline{\VAR{athlete_name}}}}}
+\vspace{-0.1cm}
+
 \begin{figure}[htbp] % Use figure to ensure both appear on the same page
     \centering
     \begin{minipage}{\linewidth}
@@ -77,7 +116,7 @@
                 % Create a legend box
                 \node[draw, rectangle, text width=3cm, align=left, fill=white] at (0, 0) {
                     \BLOCK{for i in range(dates|length)}
-                        \textcolor{\VAR{colors[i]}}{\rule{1cm}{0.3mm}} \VAR{dates[i]} \\[0.1cm] 
+                        \textcolor{\VAR{colors[i]}}{\rule{1cm}{0.3mm}} \VAR{dates[i].replace("_", "\\_")} \\[0.1cm] 
                     \BLOCK{endfor}
                 };
             \end{tikzpicture}
@@ -114,52 +153,43 @@
                         }
                         
                         % define labels for each dimension axis (names config option)
-                        \path (1*\JA:\JL) node (L1) {J02};
-                        \path (2*\JA:\JL) node (L2) {J01};
-                        \path (3*\JA:\JL) node (L3) {J10};
-                        \path (4*\JA:\JL) node (L4) {J09};
-                        \path (5*\JA:\JL) node (L5) {J08};
-                        \path (6*\JA:\JL) node (L6) {J07};
-                        \path (7*\JA:\JL) node (L7) {J06};
-                        \path (8*\JA:\JL) node (L8) {J05};
-                        \path (9*\JA:\JL) node (L8) {J04};
-                        \path (10*\JA:\JL) node (L9) {J03};
+                        \BLOCK{for i in range(max_joint)}
+                            \BLOCK{set res = i - max_joint}
+                            \BLOCK{if res == max_joint or res == -max_joint}
+                                \BLOCK{set res = 0}
+                            \BLOCK{elif res < 0}
+                                \BLOCK{set res = -res}
+                            \BLOCK{endif}
+
+
+                        \path (\VAR{i + 1}*\JA:\JL) node (L\VAR{res+1}) {J\VAR{ '{:02d}'.format(res+1) }};
+                        \BLOCK{endfor}
+
                         
                         \BLOCK{for i in range(dates|length)}
                             \draw [color=\VAR{colors[i]},line width=1.5pt,opacity=1]
-                            
-                            % plotPosition = (curVal - minVal)/(maxVal - minVal) *\R
-                            ({1*\JA}:{(\VAR{(data[dates[i]]['joints'][1] / 10) | round(3)}/10 - 0.7)/(1 - 0.7)*\R}) --
-                            ({2*\JA}:{(\VAR{(data[dates[i]]['joints'][0] / 10) | round(3)}/10 - 0.7)/(1 - 0.7)*\R}) --
-                            ({3*\JA}:{(\VAR{(data[dates[i]]['joints'][9] / 10) | round(3)}/10 - 0.7)/(1 - 0.7)*\R}) --
-                            ({4*\JA}:{(\VAR{(data[dates[i]]['joints'][8] / 10) | round(3)}/10 - 0.7)/(1 - 0.7)*\R}) --
-                            ({5*\JA}:{(\VAR{(data[dates[i]]['joints'][7] / 10) | round(3)}/10 - 0.7)/(1 - 0.7)*\R}) --
-                            ({6*\JA}:{(\VAR{(data[dates[i]]['joints'][6] / 10) | round(3)}/10 - 0.7)/(1 - 0.7)*\R}) --
-                            ({7*\JA}:{(\VAR{(data[dates[i]]['joints'][5] / 10) | round(3)}/10 - 0.7)/(1 - 0.7)*\R}) --
-                            ({8*\JA}:{(\VAR{(data[dates[i]]['joints'][4] / 10) | round(3)}/10 - 0.7)/(1 - 0.7)*\R}) --
-                            ({9*\JA}:{(\VAR{(data[dates[i]]['joints'][3] / 10) | round(3)}/10 - 0.7)/(1 - 0.7)*\R}) --
-                            ({10*\JA}:{(\VAR{(data[dates[i]]['joints'][2] / 10) | round(3)}/10 - 0.7)/(1 - 0.7)*\R}) -- cycle;
-                        
-                            \filldraw[fill=lightgray, draw=\VAR{colors[i]}, thick]
-                                ({1*\JA}:{(\VAR{(data[dates[i]]['joints'][1] / 10) | round(3)}/10 - 0.7)/(1 - 0.7)*\R}) circle (1.5pt);
-                            \filldraw[fill=lightgray, draw=\VAR{colors[i]}, thick]
-                                ({2*\JA}:{(\VAR{(data[dates[i]]['joints'][0] / 10) | round(3)}/10 - 0.7)/(1 - 0.7)*\R}) circle (1.5pt);
-                            \filldraw[fill=lightgray, draw=\VAR{colors[i]}, thick]
-                                ({3*\JA}:{(\VAR{(data[dates[i]]['joints'][9] / 10) | round(3)}/10 - 0.7)/(1 - 0.7)*\R}) circle (1.5pt);
-                            \filldraw[fill=lightgray, draw=\VAR{colors[i]}, thick]
-                                ({4*\JA}:{(\VAR{(data[dates[i]]['joints'][8] / 10) | round(3)}/10 - 0.7)/(1 - 0.7)*\R}) circle (1.5pt);
-                            \filldraw[fill=lightgray, draw=\VAR{colors[i]}, thick]
-                                ({5*\JA}:{(\VAR{(data[dates[i]]['joints'][7] / 10) | round(3)}/10 - 0.7)/(1 - 0.7)*\R}) circle (1.5pt);
-                            \filldraw[fill=lightgray, draw=\VAR{colors[i]}, thick]
-                                ({6*\JA}:{(\VAR{(data[dates[i]]['joints'][6] / 10) | round(3)}/10 - 0.7)/(1 - 0.7)*\R}) circle (1.5pt);
-                            \filldraw[fill=lightgray, draw=\VAR{colors[i]}, thick]
-                                ({7*\JA}:{(\VAR{(data[dates[i]]['joints'][5] / 10) | round(3)}/10 - 0.7)/(1 - 0.7)*\R}) circle (1.5pt);
-                            \filldraw[fill=lightgray, draw=\VAR{colors[i]}, thick]
-                                ({8*\JA}:{(\VAR{(data[dates[i]]['joints'][4] / 10) | round(3)}/10 - 0.7)/(1 - 0.7)*\R}) circle (1.5pt);
-                            \filldraw[fill=lightgray, draw=\VAR{colors[i]}, thick]
-                                ({9*\JA}:{(\VAR{(data[dates[i]]['joints'][3] / 10) | round(3)}/10 - 0.7)/(1 - 0.7)*\R}) circle (1.5pt);
-                            \filldraw[fill=lightgray, draw=\VAR{colors[i]}, thick]
-                                ({10*\JA}:{(\VAR{(data[dates[i]]['joints'][2] / 10) | round(3)}/10 - 0.7)/(1 - 0.7)*\R}) circle (1.5pt);
+                            \BLOCK{for j in range(data[dates[i]]['joints']|length)}
+                                \BLOCK{set res = j - max_joint}
+                                \BLOCK{if res == max_joint or res == -max_joint}
+                                    \BLOCK{set res = 0}
+                                \BLOCK{elif res < 0}
+                                    \BLOCK{set res = -res}
+                                \BLOCK{endif}
+                                ({\VAR{j+1}*\JA}:{(\VAR{(data[dates[i]]['joints'][res] / 10) | round(3)}/10 - 0.7)/(1 - 0.7)*\R})
+                                \BLOCK{if not loop.last}--\BLOCK{endif}
+                            \BLOCK{endfor} -- cycle;
+
+                            \BLOCK{for j in range(data[dates[i]]['joints']|length)}
+                                \BLOCK{set res = j - max_joint}
+                                    \BLOCK{if res == max_joint or res == -max_joint}
+                                        \BLOCK{set res = 0}
+                                    \BLOCK{elif res < 0}
+                                        \BLOCK{set res = -res}
+                                \BLOCK{endif}
+                                    
+                                \filldraw[fill=lightgray, draw=\VAR{colors[i]}, thick]
+                                    ({\VAR{j+1}*\JA}:{(\VAR{(data[dates[i]]['joints'][res] / 10) | round(3)}/10 - 0.7)/(1 - 0.7)*\R}) circle (1.5pt);
+                            \BLOCK{endfor}
                         \BLOCK{endfor}
                         
                     \end{tikzpicture}
@@ -169,7 +199,7 @@
                     % Create a legend box
                     \node[draw, rectangle, text width=3cm, align=left, fill=white] at (0, 0) {
                         \BLOCK{for i in range(dates|length)}
-                            \textcolor{\VAR{colors[i]}}{\rule{1cm}{0.3mm}} \VAR{dates[i]} \\[0.1cm] 
+                            \textcolor{\VAR{colors[i]}}{\rule{1cm}{0.3mm}} \VAR{dates[i].replace("_", "\\_")} \\[0.1cm] 
                         \BLOCK{endfor}
                     };
                 \end{tikzpicture}
@@ -177,3 +207,5 @@
         }
     \end{minipage}%
 \end{figure}
+
+
