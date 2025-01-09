@@ -161,8 +161,13 @@
                                 \BLOCK{set res = -res}
                             \BLOCK{endif}
 
-
-                        \path (\VAR{i + 1}*\JA:\JL) node (L\VAR{res+1}) {J\VAR{ '{:02d}'.format(res+1) }};
+                        
+                        \BLOCK{if max_joint <= 7}
+                            \path (\VAR{i + 1}*\JA:\JL) node (L\VAR{res+1}) {J\VAR{ '{:02d}'.format(res+1) }};
+                        \BLOCK{else}
+                            \path (\VAR{i + 2}*\JA:\JL) node (L\VAR{res+1}) {J\VAR{ '{:02d}'.format(res+1) }};
+                        \BLOCK{endif}
+                        
                         \BLOCK{endfor}
 
                         
@@ -175,7 +180,13 @@
                                 \BLOCK{elif res < 0}
                                     \BLOCK{set res = -res}
                                 \BLOCK{endif}
-                                ({\VAR{j+1}*\JA}:{(\VAR{(data[dates[i]]['joints'][res] / 10) | round(3)}/10 - 0.7)/(1 - 0.7)*\R})
+                                
+                                \BLOCK{if max_joint <= 7}
+                                    ({\VAR{j+1}*\JA}:{(\VAR{(data[dates[i]]['joints'][res] / 10) | round(3)}/10 - 0.7)/(1 - 0.7)*\R})
+                                \BLOCK{else}
+                                    ({\VAR{j+2}*\JA}:{(\VAR{(data[dates[i]]['joints'][res] / 10) | round(3)}/10 - 0.7)/(1 - 0.7)*\R})
+                                \BLOCK{endif}
+                                
                                 \BLOCK{if not loop.last}--\BLOCK{endif}
                             \BLOCK{endfor} -- cycle;
 
@@ -188,7 +199,12 @@
                                 \BLOCK{endif}
                                     
                                 \filldraw[fill=lightgray, draw=\VAR{colors[i]}, thick]
-                                    ({\VAR{j+1}*\JA}:{(\VAR{(data[dates[i]]['joints'][res] / 10) | round(3)}/10 - 0.7)/(1 - 0.7)*\R}) circle (1.5pt);
+                                    \BLOCK{if max_joint <= 7}
+                                        ({\VAR{j+1}*\JA}:{(\VAR{(data[dates[i]]['joints'][res] / 10) | round(3)}/10 - 0.7)/(1 - 0.7)*\R}) circle (1.5pt);
+                                    \BLOCK{else}
+                                        ({\VAR{j+2}*\JA}:{(\VAR{(data[dates[i]]['joints'][res] / 10) | round(3)}/10 - 0.7)/(1 - 0.7)*\R}) circle (1.5pt);
+                                    \BLOCK{endif}
+                                    
                             \BLOCK{endfor}
                         \BLOCK{endfor}
                         
